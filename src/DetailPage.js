@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getSkateboards, getCategories, updateSkateboard} from './API-Utils.js';
+import { getSkateboards, getCategories, updateSkateboard, deleteSkateboard} from './API-Utils.js';
 
 
 export default class DetailPage extends Component {
@@ -34,6 +34,12 @@ export default class DetailPage extends Component {
     handleCategoryChange = (e) => this.setState({ category_id: Number(e.target.value) })
 
     handlePriceChange = (e) => this.setState({ price: Number(e.target.value) })
+
+    handleDelete = async () => {
+        await deleteSkateboard(this.props.match.params.id, this.state)
+
+        this.props.history.push('/skateboards');
+    }
 
     handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,6 +77,7 @@ export default class DetailPage extends Component {
                     </label>
                     <button>Update</button>
                 </form>
+                <button onChange={this.handleDelete}>Delete</button>
             </div>
         )
     }
