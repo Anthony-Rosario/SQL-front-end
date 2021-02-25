@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getSkateboards, getCategories, updateSkateboard, deleteSkateboard} from './API-Utils.js';
+import { getBoard, getCategories, updateSkateboard, deleteSkateboard} from './API-Utils.js';
 
 
 export default class DetailPage extends Component {
@@ -16,13 +16,10 @@ export default class DetailPage extends Component {
     componentDidMount = async () => {
         const categories = await getCategories();
 
-        const skateboard = await getSkateboards(this.props.match.params.id);
+        const skateboard = await getBoard(this.props.match.params.id);
 
         this.setState({
-            name: skateboard.name,
-            description: skateboard.description,
-            category_id: skateboard.category_id,
-            owner_id: 1,
+            ...skateboard,
             categories
         });
     }
@@ -35,8 +32,8 @@ export default class DetailPage extends Component {
 
     handlePriceChange = (e) => this.setState({ price: Number(e.target.value) })
 
-    handleDelete = async () => {
-        await deleteSkateboard(this.props.match.params.id, this.state)
+    handleDeleteChange = async () => {
+        await deleteSkateboard(this.props.match.params.id)
 
         this.props.history.push('/skateboards');
     }
@@ -51,7 +48,6 @@ export default class DetailPage extends Component {
     }
 
     render(){
-        console.log(this.state)
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
@@ -70,14 +66,14 @@ export default class DetailPage extends Component {
                     <label>
                         <select value={this.state.category} onChange={this.handleCategoryChange}>
                             {this.state.categories.map(category => 
-                                <option value={category.id} selected={this.state.category_id === category.id}> 
+                                <option value={category.id} selected={this.state.category_id === category.id} key={category.name}> 
                                     {category.name}
                                 </option>)}
                         </select>
                     </label>
                     <button>Update</button>
                 </form>
-                <button onChange={this.handleDelete}>Delete</button>
+                <button onClick={this.handleDeleteChange}>Delete</button>
             </div>
         )
     }

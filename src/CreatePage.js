@@ -8,7 +8,6 @@ export default class CreatePage extends Component {
         name: '',
         description: '',
         category_id: 1,
-        categories: [],
         price: ''
     }
 
@@ -46,10 +45,8 @@ export default class CreatePage extends Component {
                     </label>
                     <label>
                         <select value={this.state.category} onChange={this.handleCategoryChange}>
-                        {this.state.categories.map(category => 
-                                <option value={category.id} selected={this.state.category_id === category.id}> 
-                                    {category.name}
-                                </option>)}
+                            <option value={1}>Skateboard</option>
+                            <option value={2}>Longboard</option>
                         </select>
                     </label>
                     <button>Create</button>
