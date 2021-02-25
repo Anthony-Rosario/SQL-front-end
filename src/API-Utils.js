@@ -1,6 +1,6 @@
 import request from 'superagent';
 
-const URL = 'https://lit-tundra-00068.herokuapp.com/';
+const URL = 'https://lit-tundra-00068.herokuapp.com';
 
 
 export async function getSkateboards() {
@@ -24,8 +24,8 @@ export async function getBoard(id) {
 }
 
 
-export async function makeSkateboard(aBoard) {
-    const { body } = await (await request.post(`${URL}/skateboards/`)).send(aBoard);
+export async function makeSkateboard(skateboard) {
+    const { body } = await request.post(`${URL}/skateboards/`).send(skateboard);
 
     return body;
 }
